@@ -8,11 +8,12 @@ class getPets {
         $this->args = $this->getArgs();
 
         $query = "SELECT * FROM $tablename ";
+        $countQuery = "SELECT COUNT(*) FROM $tablename ";
         $query .= $this->createWhereText();
-        $query .= " LIMIT 100";
+        $countQuery .= $this->createWhereText();
+        $query .= " LIMIT 200";
 
-        echo $query;
-
+        $this -> count = $wpdb->get_var($wpdb -> prepare($countQuery , $this->args));
         $this -> pets = $wpdb->get_results($wpdb -> prepare( $query, $this->args));
     }
 
