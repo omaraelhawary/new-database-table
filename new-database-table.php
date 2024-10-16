@@ -30,12 +30,13 @@ class PetAdoptionTablePlugin {
   function deletepet() {
     if(current_user_can('administrator')) {
       global $wpdb;
-      $id = $_POST['idtodelete'];
+      $id = sanitize_text_field($_POST['idtodelete']);
       $wpdb->delete($this->tablename, array('id' => $id));
-      wp_redirect(site_url('/pet-adoption'));
+      wp_safe_redirect(site_url('/pet-adoption'));
     } else {
-      wp_redirect(site_url());
+      wp_safe_redirect(site_url());
     }
+    exit;
   }
 
   function createPet() {
@@ -44,10 +45,11 @@ class PetAdoptionTablePlugin {
       $pet['petname'] = sanitize_text_field($_POST['newpetname']);
       global $wpdb;
       $wpdb->insert($this->tablename, $pet);
-      wp_redirect(site_url('/pet-adoption'));
+      wp_safe_redirect(site_url('/pet-adoption'));
     } else {
-      wp_redirect(site_url());
+      wp_safe_redirect(site_url());
     }
+    exit;
   }
 
   function onActivate() {
